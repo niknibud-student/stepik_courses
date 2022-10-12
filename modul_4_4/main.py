@@ -2,13 +2,15 @@ from PIL import Image, ImageDraw, ImageFont
 
 def draw_text(image, type, text):
     draw = ImageDraw.Draw(image)
-    font = ImageFont.truetype('impact.ttf', 50)
+    font_size = 50
+    font = ImageFont.truetype('impact.ttf', font_size)
     white_color = (255, 255, 255)
     # ширина и высота данного текста с данным шрифтом
     text_width = draw.textlength(text, font) 
-    text_height = draw.textsize(text, font)[1]
+    text_height = font_size * 1.15
     # зависит от расположения
     y_start = 10 if type == 'top' else image.height - text_height - 10
+    
     draw.text((image.width / 2 - text_width / 2, y_start), 
               text, white_color, font)
 
