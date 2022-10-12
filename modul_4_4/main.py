@@ -4,7 +4,8 @@ def make_meme(image, top_text='', bottom_text=''):
     draw = ImageDraw.Draw(image)
     font = ImageFont.truetype('impact.ttf', 50)
     white_color = (255, 255, 255)
-    draw.text((10, 10), top_text, white_color, font)
+    text_width = draw.textlength(top_text, font)  # ширина данного текста с данным шрифтом
+    draw.text((image.width / 2 - text_width / 2, 10), top_text, white_color, font)
     return image
 
 def main():    
