@@ -1,4 +1,20 @@
 from PIL import Image, ImageDraw, ImageFont
+from os import listdir
+
+
+def input_parametres():
+    print('Введите цифру - шаблон для мема')
+    files = listdir('templates')
+    for i, file in enumerate(files):
+        print(f'{file} - {i+1}')
+    digit = int(input())
+    if digit < 1 or digit - 1 > len(files):
+        print('Вы ввели неверный номер шаблона')
+        quit()
+    top_text = input('Введите текст сверху (Enter, чтобы пропустить)')        
+    bottom_text = input('Введите текст снизу (Enter, чтобы пропустить)')        
+    return files[digit - 1], top_text, bottom_text
+
 
 def draw_text(image, type, text):
     draw = ImageDraw.Draw(image)
@@ -14,16 +30,17 @@ def draw_text(image, type, text):
     draw.text((image.width / 2 - text_width / 2, y_start), 
               text, white_color, font)
 
+
 def make_meme(image, top_text='', bottom_text=''):
     draw_text(image, 'top', top_text)
     draw_text(image, 'bottom', bottom_text)
     return image
 
-def main():    
-    with Image.open("templates/boromir.jpg") as image:
-        image = make_meme(image, 
-                          'Нельзя так просто взять', 
-                          'и сразу написать идеальное приложение')
+
+def main():
+    image_name, top_text, bottom_text = input_parametres()
+    with Image.open(f'templates/{image_name}') as image:
+        image = make_meme(image, top_text, bottom_text)
         image.save('meme_result.jpg')
         image.show()
 
