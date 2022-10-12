@@ -16,7 +16,17 @@ def input_parametres():
     return files[digit - 1], top_text, bottom_text
 
 
-def draw_text(image, type, text):
+def draw_outlined_text(draw, pos: tuple, text: str, font) -> None:
+    black_color = (0, 0, 0)
+    white_color = (255, 255, 255)
+    draw.text((pos[0] - 3, pos[1] - 3), text, black_color, font)
+    draw.text((pos[0] + 3, pos[1] + 3), text, black_color, font)
+    draw.text((pos[0] + 3, pos[1] - 3), text, black_color, font)
+    draw.text((pos[0] - 3, pos[1] + 3), text, black_color, font)
+    draw.text(pos, text, white_color, font)
+    
+
+def draw_text(image, type: str, text: str) -> None:
     draw = ImageDraw.Draw(image)
     font_size = 50
     font = ImageFont.truetype('impact.ttf', font_size)
@@ -26,12 +36,13 @@ def draw_text(image, type, text):
     text_height = font_size * 1.15
     # зависит от расположения
     y_start = 10 if type == 'top' else image.height - text_height - 10
-    
+    draw_outlined_text(draw, (image.width / 2 - text_width / 2, y_start), 
+                       text, font)
     draw.text((image.width / 2 - text_width / 2, y_start), 
               text, white_color, font)
 
 
-def make_meme(image, top_text='', bottom_text=''):
+def make_meme(image, top_text: str ='', bottom_text: str =''):
     draw_text(image, 'top', top_text)
     draw_text(image, 'bottom', bottom_text)
     return image
