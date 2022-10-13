@@ -1,4 +1,3 @@
-from ast import Return
 from PIL import Image, ImageDraw, ImageFont
 from os import listdir
 from typing import List
@@ -6,15 +5,20 @@ from typing import List
 
 def input_parametres():
     print('Введите цифру - шаблон для мема')
-    files = listdir('templates')
+    files = listdir('modul_4_4/templates')
+
     for i, file in enumerate(files):
         print(f'{file} - {i+1}')
+
     digit = int(input())
+
     if digit < 1 or digit - 1 > len(files):
         print('Вы ввели неверный номер шаблона')
         quit()
-    top_text = input('Введите текст сверху (Enter, чтобы пропустить)')
-    bottom_text = input('Введите текст снизу (Enter, чтобы пропустить)')
+
+    top_text = input('Введите текст сверху (Enter, чтобы пропустить): ')
+    bottom_text = input('Введите текст снизу (Enter, чтобы пропустить): ')
+
     return files[digit - 1], top_text, bottom_text
 
 
@@ -32,6 +36,7 @@ def split_text(draw, text: str, font, img_width: int) -> List:
     lines = []
     cur_word = 0
     words = text.split()
+
     while cur_word != len(words):
         # если даже одно слово длинное, скажем об этом пользователю
         if draw.textlength(words[cur_word], font) > img_width:
@@ -47,6 +52,7 @@ def split_text(draw, text: str, font, img_width: int) -> List:
             cur_line.append(words[cur_word])
             cur_word += 1
         lines.append(' '.join(cur_line))
+
     return lines
 
 
@@ -82,7 +88,7 @@ def make_meme(image, top_text: str ='', bottom_text: str =''):
 
 def main():
     image_name, top_text, bottom_text = input_parametres()
-    with Image.open(f'templates/{image_name}') as image:
+    with Image.open(f'modul_4_4/templates/{image_name}') as image:
         image = make_meme(image, top_text, bottom_text)
         image.save('meme_result.jpg')
         image.show()
