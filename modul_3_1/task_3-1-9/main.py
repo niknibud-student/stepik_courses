@@ -1,9 +1,12 @@
+import os
 import sys
-f = open('input2.txt', 'r')
-sys.stdin = f
 
 from funcs import get_advice_books_v2
 
+script_dir = os.path.dirname(__file__)
+abs_path = os.path.join(script_dir, 'input2.txt')
+f = open(abs_path, 'r', encoding='utf8')
+sys.stdin = f
 
 data = [x.strip() for x in input().split(',')]
 library = {}
